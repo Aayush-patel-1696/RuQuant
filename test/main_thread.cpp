@@ -2,16 +2,10 @@
 #include <thread>
 #include<vector>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
-
-
-
-// void pfill(vector<int> &array,int i){
-//     fill(array.begin() +  i*1000/4 , array.begin() + (i+1)*(1000/4), i);
-// }
-
-
+using namespace 
 template < typename T>
 concept RuVector = requires (T a,T b){
     a*b;
@@ -76,7 +70,7 @@ void tVax(vector <T>& InpVector,vector <T>& OutVector, U a){
 }
 
 template <typename T>
-// requires RuVector<T>
+requires RuVector<T>
 void display(vector<T>& InpVector){
 
     for(auto i:InpVector ){
@@ -94,6 +88,7 @@ int main(){
 
     vector<double> arr = {1,2,3,4,5,8,9,10,11,12};
     vector<double> arr2(arr.size(),0);
+
     tVax(arr,arr2,2.0);
 
     display(arr2);
