@@ -271,7 +271,6 @@ void sVaxpby(vector <T>& InpVector1,vector <T>& InpVector2,vector<T>& OutVector,
 
 }
 
-
 template <typename T>
 requires RuVector<T>
 void sVdot (vector<T>& InpVector1,vector<T>& InpVector2,T& value){
