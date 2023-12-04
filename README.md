@@ -1,2 +1,2 @@
 # RuQuant
-Parallel Implementation of vector manupalation using threading
+Parallel Implementation of vector manupulation using threading
