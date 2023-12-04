@@ -31,14 +31,14 @@ class tvector :public svector{
 
         template <typename T,typename U>
         requires RuVector<T> &&  ScalerValue<U>
-        void tVnorm(vector<T>& InpVector1,U& norm);
+        void tVnorm(vector<T>& InpVector1,vector<T>& InpVector2,U& norm);
 
         template <typename T>
         requires RuVector<T>
         void display(vector<T> &InpVector); // Display the vector
 
     private:
-        size_t num_threads = 4;
+        size_t num_threads = 6;
 
 
 };
