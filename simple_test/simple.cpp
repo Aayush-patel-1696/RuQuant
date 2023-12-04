@@ -24,10 +24,10 @@
 //     a+b;
 // } && (is_arithmetic_v<U>) && (! same_as<U, char>) ;
 
-#ifndef SVECTOR_CPP  // Include guard to prevent multiple inclusions
-#define SVECTOR_CPP
+#ifndef SIMPLE_CPP  // Include guard to prevent multiple inclusions
+#define SIMPLE_CPP
 
-#include "svector.h"
+#include "simple.h"
 #include <vector>
 #include <concepts>
 #include <stdexcept> 
@@ -36,11 +36,11 @@ using namespace std;
 
 template <typename T,typename U >
 requires RuVector<T> && ScalerValue<U>
-void svector::sVax(std::vector <T>& InpVector,std::vector <T>& OutVector, U& a){
+void svector::sVax(std::vector <T>& InpVector,std::vector <T>& OutVector, U& a,size_t start ,size_t end){
 
     if(InpVector.size()==OutVector.size()){
  
-            for(int i=0; i< InpVector.size();i++){
+            for(int i=start; i< end;i++){
                 OutVector[i] = a*InpVector[i];
             }
     }
@@ -53,11 +53,11 @@ void svector::sVax(std::vector <T>& InpVector,std::vector <T>& OutVector, U& a){
 
 template <typename T>
 requires RuVector<T>
-void svector::sVelemul (std::vector<T>& InpVector1,std::vector<T>& InpVector2,std::vector<T>& OutVector){
+void svector::sVelemul (std::vector<T>& InpVector1,std::vector<T>& InpVector2,std::vector<T>& OutVector,size_t start,size_t end){
 
     if((InpVector1.size()==OutVector.size()) && (InpVector2.size()==InpVector1.size())){
  
-            for(int i=0; i< InpVector1.size();i++){
+            for(int i=start; i< end;i++){
                 OutVector[i] = InpVector1[i]*InpVector2[i];
             }
     }
@@ -85,12 +85,12 @@ auto svector::sVcheckelem(std::vector<T>& InpVector1,T ele){
 
 template <typename T>
 requires RuVector<T>
-void svector::sVelediv(std::vector<T>& InpVector1,std::vector<T>& InpVector2,std::vector<T>& OutVector){
+void svector::sVelediv(std::vector<T>& InpVector1,std::vector<T>& InpVector2,std::vector<T>& OutVector,size_t start,size_t end){
     if((InpVector1.size()==OutVector.size()) && (InpVector2.size()==InpVector1.size())){
 
             T ele = 0;
             if (sVcheckelem(InpVector2,ele)){
-                for(int i=0; i< InpVector1.size();i++){
+                for(int i=start; i< end;i++){
                     OutVector[i] = InpVector1[i]/InpVector2[i];
                 }
             }
@@ -110,11 +110,11 @@ void svector::sVelediv(std::vector<T>& InpVector1,std::vector<T>& InpVector2,std
 
 template <typename T,typename U>
 requires RuVector<T> && ScalerValue<U>
-void svector::sVaxpby(std::vector <T>& InpVector1,std::vector <T>& InpVector2,std::vector<T>& OutVector,U a,U b){
+void svector::sVaxpby(std::vector <T>& InpVector1,std::vector <T>& InpVector2,std::vector<T>& OutVector,U a,U b,size_t start,size_t end){
 
     if((InpVector1.size()==OutVector.size()) && (InpVector2.size()==InpVector1.size())){
 
-            for(int i=0; i< InpVector1.size();i++){
+            for(int i=start; i< end;i++){
                 OutVector[i] = a*InpVector1[i] + b*InpVector2[i];
             }
     }
@@ -123,11 +123,11 @@ void svector::sVaxpby(std::vector <T>& InpVector1,std::vector <T>& InpVector2,st
 
 template <typename T>
 requires RuVector<T>
-void svector::sVdot (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& value){
+void svector::sVdot (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& value,size_t start,size_t end){
 
     if((InpVector1.size()==InpVector2.size())){
         value = 0;
-        for(int i=0;i<InpVector1.size();i++){
+        for(int i=start; i< end;i++){
             value+= InpVector1[i]*InpVector2[i];
         }
     }
@@ -140,11 +140,11 @@ void svector::sVdot (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& va
 
 template <typename T>
 requires RuVector<T>
-void svector::sVnorm (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& norm){
+void svector::sVnorm (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& norm,size_t start,size_t end){
 
     if((InpVector1.size()==InpVector2.size())){
         norm = 0;
-        for(int i=0;i<InpVector1.size();i++){
+        for(int i=start; i< end;i++){
             norm+= InpVector1[i]*InpVector1[i];
         }
         norm = pow(norm,0.5);

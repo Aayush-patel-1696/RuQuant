@@ -1,48 +1,46 @@
-/*
 
-following operations will be created
+// #include "simple.h"
+// #include <iostream>
 
+// template <typename T>
+// SimpleTemplateClass<T>::SimpleTemplateClass(T value) : data(value) {}
 
-1) tVaxpy = alpha*x + y 
-2) tVdot = x*y
-only return manner
-3) tVnrm = sqrt(x1^2+ x2^2 + x3^3)
-only return manner
-4) tVelemul = x*y 
-both inplace and return manner
-5) tVelediv = x/y
-both inplace and return manner
-6) tVax
+// template <typename T>
+// void SimpleTemplateClass<T>::display() {
+//     std::cout << "Value: " << data << std::endl;
+// }
 
 
 
-*/
-#include<iostream>
-#include <concepts>
+// template < typename T>
+// concept RuVector = requires (T a,T b){
+//     a*b;
+//     a+b;
+// } && (is_arithmetic_v<T>) && (! same_as<T, char>) ;
+
+// template < typename U>
+// concept ScalerValue = requires (U a,U b){
+//     a*b;
+//     a+b;
+// } && (is_arithmetic_v<U>) && (! same_as<U, char>) ;
+
+#ifndef SVECTOR_CPP  // Include guard to prevent multiple inclusions
+#define SVECTOR_CPP
+
+#include "svector.h"
 #include <vector>
-#include <cmath>
+#include <concepts>
+#include <stdexcept> 
 
 using namespace std;
 
-template < typename T>
-concept RuVector = requires (T a,T b){
-    a*b;
-    a+b;
-} && (is_arithmetic_v<T>) && (! same_as<T, char>) ;
-
-template < typename U>
-concept ScalerValue = requires (U a,U b){
-    a*b;
-    a+b;
-} && (is_arithmetic_v<U>) && (! same_as<U, char>) ;
-
 template <typename T,typename U >
-requires RuVector<T> && ScalerValue<U> 
-void sVax(vector <T>& InpVector,vector <T>& OutVector, U a){
+requires RuVector<T> && ScalerValue<U>
+void svector::sVax(std::vector <T>& InpVector,std::vector <T>& OutVector, U& a,size_t start,size_t end){
 
     if(InpVector.size()==OutVector.size()){
  
-            for(int i=0; i< InpVector.size();i++){
+            for(int i=start; i< end;i++){
                 OutVector[i] = a*InpVector[i];
             }
     }
@@ -51,11 +49,11 @@ void sVax(vector <T>& InpVector,vector <T>& OutVector, U a){
         throw std::invalid_argument("Input and output vector sizes must be the same.");
     }
 
-}
+};
 
 template <typename T>
 requires RuVector<T>
-void sVelemul (vector<T>& InpVector1,vector<T>& InpVector2,vector<T>& OutVector){
+void svector::sVelemul (std::vector<T>& InpVector1,std::vector<T>& InpVector2,std::vector<T>& OutVector,size_t start,size_t end){
 
     if((InpVector1.size()==OutVector.size()) && (InpVector2.size()==InpVector1.size())){
  
@@ -68,28 +66,30 @@ void sVelemul (vector<T>& InpVector1,vector<T>& InpVector2,vector<T>& OutVector)
         throw std::invalid_argument("Input and output vector sizes must be the same.");
     }
 
-}
+};
 
 template <typename T>
 requires RuVector<T>
-auto sVcheckelem(vector<T>& InpVector1,T ele){
+auto svector::sVcheckelem(std::vector<T>& InpVector1,T ele){
             
             for(auto i:InpVector1){
                 if (i==ele){
-                    return 1;
+                    std::cout<<ele<<endl;
+                    return 0;
                 }
             }
 
-            return 0;
-        }
+            return 1;
+};
+
 
 template <typename T>
 requires RuVector<T>
-void sVelediv (vector<T>& InpVector1,vector<T>& InpVector2,vector<T>& OutVector){
+void svector::sVelediv(std::vector<T>& InpVector1,std::vector<T>& InpVector2,std::vector<T>& OutVector){
     if((InpVector1.size()==OutVector.size()) && (InpVector2.size()==InpVector1.size())){
 
-
-            if (sVcheckelem(InpVector2,0)){
+            T ele = 0;
+            if (sVcheckelem(InpVector2,ele)){
                 for(int i=0; i< InpVector1.size();i++){
                     OutVector[i] = InpVector1[i]/InpVector2[i];
                 }
@@ -103,13 +103,14 @@ void sVelediv (vector<T>& InpVector1,vector<T>& InpVector2,vector<T>& OutVector)
         throw std::invalid_argument("Input and output vector sizes must be the same.");
     }
 
-}
+};
 
 
 
-template <typename T>
-requires RuVector<T>
-void sVaxpby(vector <T>& InpVector1,vector <T>& InpVector2,vector<T>& OutVector,T a,T b){
+
+template <typename T,typename U>
+requires RuVector<T> && ScalerValue<U>
+void svector::sVaxpby(std::vector <T>& InpVector1,std::vector <T>& InpVector2,std::vector<T>& OutVector,U a,U b,size_t start,size_t end){
 
     if((InpVector1.size()==OutVector.size()) && (InpVector2.size()==InpVector1.size())){
 
@@ -118,11 +119,11 @@ void sVaxpby(vector <T>& InpVector1,vector <T>& InpVector2,vector<T>& OutVector,
             }
     }
 
-}
+};
 
 template <typename T>
 requires RuVector<T>
-void sVdot (vector<T>& InpVector1,vector<T>& InpVector2,T& value){
+void svector::sVdot (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& value,size_t start,size_t end){
 
     if((InpVector1.size()==InpVector2.size())){
         value = 0;
@@ -135,12 +136,11 @@ void sVdot (vector<T>& InpVector1,vector<T>& InpVector2,T& value){
         throw std::invalid_argument("Input and output vector sizes must be the same.");
     }
 
-}
+};
 
-
-template <typename T,typename U>
-requires RuVector<T> &&  ScalerValue<U>
-void sVnorm (vector<T>& InpVector1,vector<T>& InpVector2,U& norm){
+template <typename T>
+requires RuVector<T>
+void svector::sVnorm (std::vector<T>& InpVector1,std::vector<T>& InpVector2,T& norm,size_t start,size_t end){
 
     if((InpVector1.size()==InpVector2.size())){
         norm = 0;
@@ -154,12 +154,11 @@ void sVnorm (vector<T>& InpVector1,vector<T>& InpVector2,U& norm){
         throw std::invalid_argument("Input and output vector sizes must be the same.");
     }
 
-}
-
+};
 
 template <typename T>
 requires RuVector<T>
-void display(vector<T> InpVector){
+void svector::display(std::vector<T>& InpVector){
 
     for(auto i:InpVector ){
         cout << i << " " ;
@@ -167,27 +166,5 @@ void display(vector<T> InpVector){
     cout << endl;
 }
 
-
-
-int main(){
-
-
-    vector<double> arr = {1,2,3,4,5};
-    vector<double> arr2(arr.size(),0);
-    sVax(arr,arr2,2);
-
-     vector<double> arr3(arr.size(),0);
-    sVelemul(arr,arr2,arr3);
-
-    display(arr);
-    display(arr2);
-    display(arr3);
-}
-
-
-
-
-
-
-
+#endif
 

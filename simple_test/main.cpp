@@ -1,6 +1,6 @@
 
 
-#include "svector.h"
+#include "simple.h"
 #include <vector>
 #include <iostream>
 
@@ -26,25 +26,25 @@ int main(){
     vector<double> arr2(arr.size(),0.0);
     vector<double> arr3(arr.size(),0.0);
     double a = 2;
-    s.sVax(arr,arr2,a);
+    s.sVax(arr,arr2,a,0,arr.size());
 
-    s.sVaxpby(arr,arr2,arr3,3,5);
+    s.sVaxpby(arr,arr2,arr3,3,5,2,arr.size());
 
     //  vector<double> arr3(arr.size(),0);
-    s.sVelemul(arr,arr2,arr3);
+    s.sVelemul(arr,arr2,arr3,2,arr.size());
     // s.display(arr);
     // s.display(arr2);
     // s.display(arr3);
-    s.sVelediv(arr,arr2,arr3);
+    s.sVelediv(arr,arr2,arr3,2,arr.size());
     double value = 0;
-    s.sVdot(arr3,arr2,value);
+    s.sVdot(arr3,arr2,value,2,arr.size());
     cout<<"dot product "<<value<<endl;
 
     double value1 = 0;
-    s.sVnorm(arr3,arr2,value1);
+    s.sVnorm(arr3,arr2,value1,2,arr.size());
     cout<<"dot product "<<value1<<endl;
 
-    // s.display(arr);
-    // s.display(arr2);
-    // s.display(arr3);
+    s.display(arr);
+    s.display(arr2);
+    s.display(arr3);
 }
