@@ -1,5 +1,3 @@
-
-
 #ifndef TVECTOR_H  // Include guard to prevent multiple inclusions
 #define TVECTOR_H
 

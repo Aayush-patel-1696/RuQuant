@@ -1,29 +1,3 @@
-
-// #include "simple.h"
-// #include <iostream>
-
-// template <typename T>
-// SimpleTemplateClass<T>::SimpleTemplateClass(T value) : data(value) {}
-
-// template <typename T>
-// void SimpleTemplateClass<T>::display() {
-//     std::cout << "Value: " << data << std::endl;
-// }
-
-
-
-// template < typename T>
-// concept RuVector = requires (T a,T b){
-//     a*b;
-//     a+b;
-// } && (is_arithmetic_v<T>) && (! same_as<T, char>) ;
-
-// template < typename U>
-// concept ScalerValue = requires (U a,U b){
-//     a*b;
-//     a+b;
-// } && (is_arithmetic_v<U>) && (! same_as<U, char>) ;
-
 #ifndef SVECTOR_CPP  // Include guard to prevent multiple inclusions
 #define SVECTOR_CPP
 
