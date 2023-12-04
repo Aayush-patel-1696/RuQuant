@@ -150,7 +150,7 @@ void tvector::tVdot (vector<T>& InpVector1,vector<T>& InpVector2,T& value){
 
 template <typename T,typename U>
 requires RuVector<T> &&  ScalerValue<U>
-void tvector::tVnorm(vector<T>& InpVector1,U& norm){
+void tvector::tVnorm(vector<T>& InpVector1,vector<T>& InpVector2,U& norm){
 
     size_t num_th = (tvector::num_threads);
     size_t chunk_size = InpVector1.size() / num_th;
@@ -165,7 +165,7 @@ void tvector::tVnorm(vector<T>& InpVector1,U& norm){
     for (int i = 0; i < num_th; ++i) {
         size_t start = i * chunk_size;
         size_t end = (i == num_th - 1) ? InpVector1.size() : (i + 1) * chunk_size;
-        tarray[i] = thread(&svector::sVdot<T>,&obj, ref(InpVector1),ref(InpVector1),ref(normarray[i]),start, end);
+        tarray[i] = thread(&svector::sVdot<T>,&obj, ref(InpVector1),ref(InpVector2),ref(normarray[i]),start, end);
     }
 
     // Join the threads to wait for them to complete
