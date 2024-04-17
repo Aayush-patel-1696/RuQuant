@@ -38,7 +38,7 @@ class tvector :public svector{
         void display(vector<T> &InpVector); // Display the vector
 
     private:
-        size_t num_threads = 6;
+        size_t num_threads = 2;
 
 
 };
